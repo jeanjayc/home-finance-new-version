@@ -9,11 +9,14 @@
   <ItemGroup>
     <Folder Include="FinanceService\CQRS\Commands\DeleteFinance\" />
     <Folder Include="FinanceService\CQRS\Commands\UpdateFinance\" />
-    <Folder Include="FinanceService\CQRS\Commands\RegisterFinance\" />
     <Folder Include="FinanceService\CQRS\Query\GetFinanceById\" />
     <Folder Include="FinanceService\CQRS\Query\GetFinances\" />
     <Folder Include="FinanceService\CQRS\Query\GetFinanceByName\" />
     <Folder Include="FinanceService\Validation\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.4.1" />
   </ItemGroup>
 
 </Project>

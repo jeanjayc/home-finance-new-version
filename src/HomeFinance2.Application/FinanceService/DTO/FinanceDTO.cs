@@ -1,6 +1,4 @@
 ﻿namespace HomeFinance2.Application.FinanceService.DTO
 {
-    public class FinanceDTO
-    {
-    }
+    public record FinanceDTO(string description, DateTime dueDate, decimal amount);
 }

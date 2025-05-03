@@ -2,5 +2,5 @@
 
 public interface IAwsService
 {
-    
+    Task PublishToTopic(string message);
 }

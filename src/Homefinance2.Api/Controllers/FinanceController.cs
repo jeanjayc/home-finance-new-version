@@ -1,4 +1,8 @@
-﻿using HomeFinance2.Domain.Entities;
+﻿using System.Text.Json;
+using HomeFinance2.Application.ApiService.CQRS.Commands.RegisterFinance;
+using HomeFinance2.Application.FinanceService.DTO;
+using HomeFinance2.Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Homefinance2.Api.Controllers
@@ -7,11 +11,22 @@ namespace Homefinance2.Api.Controllers
     [Route("api/[controller]/[action]")]
     public class FinanceController : ControllerBase
     {
+        private readonly IMediator _mediator;
+        private readonly ILogger<FinanceController> _logger;
+
+        public FinanceController(IMediator mediator, ILogger<FinanceController> logger)
+        {
+            _mediator = mediator;
+            _logger = logger;
+        }
+        
+        [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             return Ok();
         }
-
+        
+        [HttpGet]
         public async Task<IActionResult> Get(Guid id)
         {
             if(id == Guid.Empty)
@@ -25,17 +40,23 @@ namespace Homefinance2.Api.Controllers
             }
             return Ok();
         }
-
-        public async Task<IActionResult> Create(Finance finance)
+        
+        [HttpPost]
+        public async Task<IActionResult> Create(FinanceDTO financeDto)
         {
-            return CreatedAtAction(nameof(Create), finance);
+            var financeToJson = JsonSerializer.Serialize(financeDto);
+            var query = new RegisterFinanceCommand(financeToJson);
+            await _mediator.Send(query);
+            return CreatedAtAction(nameof(Create), financeDto);
         }
-
-        public async Task<IActionResult> Put(Guid id, Finance finance)
+        
+        [HttpPut]
+        public async Task<IActionResult> Put(Guid id, FinanceDTO finance)
         {
             return NoContent();
         }
-
+        
+        [HttpDelete]
         public async Task<IActionResult> Delete(Guid id)
         {
             return NoContent();

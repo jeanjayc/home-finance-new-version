@@ -1,7 +1,10 @@
-﻿namespace HomeFinance2.Domain.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace HomeFinance2.Domain.Entities
 {
     public abstract class Entity
     {
-        public Guid Id { get; set; }
+        [JsonPropertyName("Pk")]
+        public string Pk { get; set; }
     }
 }

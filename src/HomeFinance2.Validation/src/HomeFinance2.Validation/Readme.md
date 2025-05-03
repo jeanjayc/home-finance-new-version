@@ -40,12 +40,12 @@ If already installed check if new version is available.
 
 Execute unit tests
 ```
-    cd "HomeFinance2.Validation/test/HomeFinance2.Validation.Tests"
+    cd "Homefinance2.Validation/test/Homefinance2.Validation.Tests"
     dotnet test
 ```
 
 Deploy function to AWS Lambda
 ```
-    cd "HomeFinance2.Validation/src/HomeFinance2.Validation"
+    cd "Homefinance2.Validation/src/Homefinance2.Validation"
     dotnet lambda deploy-function
 ```

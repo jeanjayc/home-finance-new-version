@@ -1,7 +1,7 @@
-﻿using HomeFinance2.Application.FinanceService.Interfaces;
+﻿using HomeFinance2.Application.Interfaces;
 using MediatR;
 
-namespace HomeFinance2.Application.FinanceService.CQRS.Commands.RegisterFinance
+namespace HomeFinance2.Application.ApiService.CQRS.Commands.RegisterFinance
 {
     public class RegisterFinanceCommandHandler : IRequestHandler<RegisterFinanceCommand, bool>
     {
@@ -14,7 +14,7 @@ namespace HomeFinance2.Application.FinanceService.CQRS.Commands.RegisterFinance
 
         public async Task<bool> Handle(RegisterFinanceCommand request, CancellationToken cancellationToken)
         {
-            await _financeService.CreateFinance(request.finance);
+            await _financeService.PublishFinanceInTopic(request.financeDto);
             return true;
         }
     }

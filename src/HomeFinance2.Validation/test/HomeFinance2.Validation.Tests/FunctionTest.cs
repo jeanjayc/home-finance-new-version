@@ -2,7 +2,7 @@ using Xunit;
 using Amazon.Lambda.TestUtilities;
 using Amazon.Lambda.SNSEvents;
 
-namespace HomeFinance2.Validation.Tests;
+namespace Homefinance2.Validation.Tests;
 
 public class FunctionTest
 {

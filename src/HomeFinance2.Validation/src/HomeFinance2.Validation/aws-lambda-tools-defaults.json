@@ -11,5 +11,5 @@
   "function-runtime": "dotnet8",
   "function-memory-size": 512,
   "function-timeout": 30,
-  "function-handler": "HomeFinance2.Validation::HomeFinance2.Validation.Function::FunctionHandler"
+  "function-handler": "Homefinance2.Validation::Homefinance2.Validation.Function::FunctionHandler"
 }

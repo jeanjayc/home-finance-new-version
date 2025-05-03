@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -7,12 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.406.23" />
+    <PackageReference Include="AWSSDK.Lambda" Version="3.7.412.19" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.416.11" />
+    <PackageReference Include="LocalStack.Client" Version="1.6.0" />
+    <PackageReference Include="LocalStack.Client.Extensions" Version="1.4.0" />
+    <PackageReference Include="MediatR" Version="12.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\HomeFinance2.Application\HomeFinance2.Application.csproj" />
     <ProjectReference Include="..\HomeFinance2.Domain\HomeFinance2.Domain.csproj" />
+    <ProjectReference Include="..\HomeFinance2.Infrastructure\HomeFinance2.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

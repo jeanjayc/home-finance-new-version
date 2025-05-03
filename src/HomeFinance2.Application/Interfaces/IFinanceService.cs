@@ -1,6 +1,6 @@
 ﻿using HomeFinance2.Application.FinanceService.DTO;
 
-namespace HomeFinance2.Application.FinanceService.Interfaces
+namespace HomeFinance2.Application.Interfaces
 {
     public interface IFinanceService
     {
@@ -8,6 +8,7 @@ namespace HomeFinance2.Application.FinanceService.Interfaces
         Task<IEnumerable<FinanceDTO>> GetAll();
 
         Task CreateFinance(FinanceDTO financeDTO);
+        Task PublishFinanceInTopic(string financeDTO);
         Task UpdateFinance(Guid id, FinanceDTO financeDTO);
         Task DeleteFinance(Guid id);
     }

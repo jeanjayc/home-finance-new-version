@@ -7,16 +7,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="FinanceService\CQRS\Commands\DeleteFinance\" />
-    <Folder Include="FinanceService\CQRS\Commands\UpdateFinance\" />
-    <Folder Include="FinanceService\CQRS\Query\GetFinanceById\" />
-    <Folder Include="FinanceService\CQRS\Query\GetFinances\" />
-    <Folder Include="FinanceService\CQRS\Query\GetFinanceByName\" />
-    <Folder Include="FinanceService\Validation\" />
+    <Folder Include="ApiService\CQRS\Commands\DeleteFinance\" />
+    <Folder Include="ApiService\CQRS\Commands\UpdateFinance\" />
+    <Folder Include="ApiService\CQRS\Query\GetFinanceById\" />
+    <Folder Include="ApiService\CQRS\Query\GetFinances\" />
+    <Folder Include="ApiService\CQRS\Query\GetFinanceByName\" />
+    <Folder Include="ApiService\Validation\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AWSSDK.SimpleNotificationService" Version="3.7.400.137" />
     <PackageReference Include="MediatR" Version="12.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HomeFinance2.Domain\HomeFinance2.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions">
+      <HintPath>..\..\..\..\..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\8.0.8\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

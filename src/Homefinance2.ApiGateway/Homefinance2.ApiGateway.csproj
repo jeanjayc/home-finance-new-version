@@ -11,7 +11,22 @@
     <!-- Generate ready to run images during publishing to improve cold start time. -->
     <PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="9.1.0" />
+		<PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.406.23" />
+		<PackageReference Include="AWSSDK.Lambda" Version="3.7.412.19" />
+		<PackageReference Include="AWSSDK.S3" Version="3.7.416.11" />
+		<PackageReference Include="LocalStack.Client" Version="1.6.0" />
+		<PackageReference Include="LocalStack.Client.Extensions" Version="1.4.0" />
+		<PackageReference Include="MediatR" Version="12.5.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\HomeFinance2.Application\HomeFinance2.Application.csproj" />
+		<ProjectReference Include="..\HomeFinance2.Domain\HomeFinance2.Domain.csproj" />
+		<ProjectReference Include="..\HomeFinance2.Infrastructure\HomeFinance2.Infrastructure.csproj" />
+	</ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="9.0.2" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 </Project>

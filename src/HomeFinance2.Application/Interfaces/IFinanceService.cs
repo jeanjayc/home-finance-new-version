@@ -9,6 +9,8 @@ namespace HomeFinance2.Application.Interfaces
 
         Task CreateFinance(FinanceDTO financeDTO);
         Task PublishFinanceInTopic(string financeDTO);
+        Task SendMessageToQueue(string message);
+        Task<string> ReadMessageFromQueueProcessing();
         Task UpdateFinance(Guid id, FinanceDTO financeDTO);
         Task DeleteFinance(Guid id);
     }

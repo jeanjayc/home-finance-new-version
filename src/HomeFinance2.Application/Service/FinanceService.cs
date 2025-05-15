@@ -49,6 +49,16 @@ public class FinanceService : IFinanceService
         await _awsService.PublishToTopic(financeDTO);
     }
 
+    public async Task SendMessageToQueue(string message)
+    {
+        if(string.IsNullOrWhiteSpace(message))
+            throw new ArgumentNullException(nameof(message));
+
+        
+        await _awsService.SendMessageToQueue(message);
+    }
+
+
     public Task UpdateFinance(Guid id, FinanceDTO financeDTO)
     {
         throw new NotImplementedException();
@@ -57,5 +67,18 @@ public class FinanceService : IFinanceService
     public Task DeleteFinance(Guid id)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<string> ReadMessageFromQueueProcessing()
+    {
+        var message = await _awsService.GetMessageFromQueueProcessing();
+        var messageReceived = string.Empty;
+        if (message.Messages.Any())
+        {
+            var sqsMessage = message.Messages[0];
+            messageReceived = sqsMessage.Body;
+        }
+
+        return messageReceived;
     }
 }

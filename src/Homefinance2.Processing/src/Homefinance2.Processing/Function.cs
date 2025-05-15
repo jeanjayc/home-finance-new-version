@@ -1,67 +1,53 @@
 using Amazon.DynamoDBv2;
 using Amazon.Lambda.Core;
-using Amazon.Lambda.SNSEvents;
+using Amazon.Lambda.SQSEvents;
 using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.SQS;
 using HomeFinance2.Application.FinanceService.DTO;
 using HomeFinance2.Application.Interfaces;
 using HomeFinance2.Application.Service;
+using HomeFinance2.Domain.Entities;
 using HomeFinance2.Domain.Interfaces;
 using HomeFinance2.Infrastructure.Repository;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 
+
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
-namespace Homefinance2.Validation;
+namespace Homefinance2.Processing;
 
 public class Function
 {
+
     public Function()
     {
     }
 
-    public async Task<string> FunctionHandler(SNSEvent evnt, ILambdaContext context)
+    public async Task FunctionHandler(SQSEvent evnt, ILambdaContext context)
     {
-        // Configuração dos serviços
         var serviceCollection = new ServiceCollection();
         ConfigureServices(serviceCollection);
         var serviceProvider = serviceCollection.BuildServiceProvider();
 
-        var app = serviceProvider.GetRequiredService<App>();
+        var financeService = serviceProvider.GetService<IFinanceService>();
 
-        context.Logger.LogInformation($"Processando {evnt.Records.Count} registros SNS.");
-
-        // Processar cada registro SNS
-        foreach (var record in evnt.Records)
+        foreach (var message in evnt.Records)
         {
-            await ProcessRecordAsync(record, context, app);
+            await ProcessMessageAsync(message, context, financeService);
         }
-
-        return $"Processados com sucesso {evnt.Records.Count} registros.";
     }
 
-    private async Task ProcessRecordAsync(SNSEvent.SNSRecord record, ILambdaContext context, App app)
+    private async Task ProcessMessageAsync(SQSEvent.SQSMessage message, ILambdaContext context, IFinanceService financeService)
     {
-        try
-        {
-            context.Logger.LogInformation($"Processando registro SNS: {record.Sns.MessageId}");
+        context.Logger.LogInformation($"Iniciando leitura da mensagem da fila");
 
-            var message = record.Sns.Message;
-            var result = await app.Run(message);
+        var financeDto = JsonSerializer.Deserialize<FinanceDTO>(message.Body);
 
-            context.Logger.LogInformation($"Processamento concluído: {result}");
-        }
-        catch (Exception ex)
-        {
-            context.Logger.LogError($"Erro ao processar registro: {ex.Message}");
-            throw;
-        }
-
-        await Task.CompletedTask;
+        await financeService.CreateFinance(financeDto);
     }
 
     private static void ConfigureServices(IServiceCollection services)
@@ -87,26 +73,7 @@ public class Function
                 ServiceURL = "http://localhost.localstack.cloud:4566",
                 UseHttp = true
             }));
-
-
         //services.AddSingleton<IAmazonDynamoDB>();
         services.AddAWSService<IAmazonS3>();
-        services.AddTransient<App>();
-    }
-
-    public class App
-    {
-        private readonly IFinanceService _financeService;
-
-        public App(IFinanceService financeService)
-        {
-            _financeService = financeService;
-        }
-
-        public async Task<string> Run(string message)
-        {
-            await _financeService.SendMessageToQueue(message);
-            return "Processamento concluído";
-        }
     }
 }

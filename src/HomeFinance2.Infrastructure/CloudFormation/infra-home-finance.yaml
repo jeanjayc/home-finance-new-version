@@ -38,3 +38,39 @@ Resources:
       Protocol: lambda
       Endpoint: arn:aws:lambda:us-east-1:000000000000:function:HomeFinanceValidation
       TopicArn: !Ref InputTopic
+  
+  ProcessingEventSourceMapping:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      BatchSize: 10
+      Enable: true
+      EventSourceArn: !GetAtt ProcessQueue.Arn
+      FunctionName: HomeFinanceProcessing
+  
+  ProcessingExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaSQSAcess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sqs:ReceiveMessage
+                  - sqs:DeleteMessage
+                  - sqs:GetQueueAttributes
+                Resource: !GetAtt ProcessQueue.Arn
+              - Effect: Allow
+                Action:
+                    - logs:CreateLogGroup
+                    - logs:CreateLogStream
+                    - logs:PutLogEvents
+                Resource: arn:aws:logs:*:*:*

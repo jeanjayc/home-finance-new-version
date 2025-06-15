@@ -16,8 +16,4 @@ public class LambdaEntryPoint :
         builder
             .UseStartup<Startup>();
     }
-
-    protected override void Init(IHostBuilder builder)
-    {
-    }
 }
